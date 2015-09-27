@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0c901d33-fcc0-49fe-bd4c-5553bd9a8784" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://www.restfulwebservices.net/wcf/StockQuoteService.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="StockQuoteService.xsd" MetadataType="Schema" ID="f7255d9d-9fc1-4c24-87ba-46c9c905133a" SourceId="1" SourceUrl="http://www.restfulwebservices.net/wcf/StockQuoteService.svc?xsd=xsd2" />
+    <MetadataFile FileName="StockQuoteService1.xsd" MetadataType="Schema" ID="73925fd9-6c4c-4f55-83a8-f212b4cf7d81" SourceId="1" SourceUrl="http://www.restfulwebservices.net/wcf/StockQuoteService.svc?xsd=xsd1" />
+    <MetadataFile FileName="StockQuoteService2.xsd" MetadataType="Schema" ID="5ad7e5a1-952d-4260-83f9-516ce6c81d26" SourceId="1" SourceUrl="http://www.restfulwebservices.net/wcf/StockQuoteService.svc?xsd=xsd3" />
+    <MetadataFile FileName="StockQuoteService.wsdl" MetadataType="Wsdl" ID="ada6af88-a140-4ad3-92b5-4f1ebb919fed" SourceId="1" SourceUrl="http://www.restfulwebservices.net/wcf/StockQuoteService.svc?wsdl" />
+    <MetadataFile FileName="StockQuoteService3.xsd" MetadataType="Schema" ID="d198dc8b-df03-4e82-8aa4-199c5da05bc5" SourceId="1" SourceUrl="http://www.restfulwebservices.net/wcf/StockQuoteService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
