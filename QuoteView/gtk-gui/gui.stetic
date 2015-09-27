@@ -95,7 +95,7 @@
               <widget class="Gtk.Label" id="GtkLabel1">
                 <property name="MemberName" />
                 <property name="WidthRequest">250</property>
-                <property name="HeightRequest">42</property>
+                <property name="HeightRequest">28</property>
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Enter comma seperated symbol(s)&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
               </widget>

@@ -67,6 +67,13 @@ public partial class MainWindow: Gtk.Window
         catch(Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(ex.ToString());
+            var md = new MessageDialog (null, 
+                                        DialogFlags.DestroyWithParent,
+                                        MessageType.Error, 
+                                        ButtonsType.Ok, ex.Message);
+
+            md.Run ();
+            md.Destroy();
         }
         finally
         {
