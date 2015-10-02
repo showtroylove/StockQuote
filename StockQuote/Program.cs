@@ -9,8 +9,7 @@ using System.Data.SqlClient;
 namespace StockQuoteApp
 {    
     class Program
-    {        
-
+    { 
         static void Main(string[] args)
         {
 			try
@@ -58,7 +57,7 @@ namespace StockQuoteApp
 
         static void SQLServerConnect()
         {
-            const string BloombergCS = "Data Source=192.168.1.73,1433;Initial Catalog=QuoteApp.ReutersDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;";
+            const string BloombergCS = "Data Source=192.168.1.73;Initial Catalog=QuoteApp.ReutersDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;";
             using (var conn = new SqlConnection(BloombergCS))
             {
                 var ds = new DataSet();

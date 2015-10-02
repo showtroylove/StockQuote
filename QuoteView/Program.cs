@@ -10,7 +10,7 @@ namespace QuoteView
             Application.Init();
             MainWindow win = new MainWindow();
             win.Show();
-            Application.Run();
+            Application.Run();           
         }
     }
 }

@@ -91,6 +91,7 @@ public partial class MainWindow
 		this.frame2.Add (this.GtkAlignment);
 		this.GtkLabel1 = new global::Gtk.Label ();
 		this.GtkLabel1.WidthRequest = 250;
+		this.GtkLabel1.HeightRequest = 28;
 		this.GtkLabel1.Name = "GtkLabel1";
 		this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Enter comma seperated symbol(s)</b>");
 		this.GtkLabel1.UseMarkup = true;

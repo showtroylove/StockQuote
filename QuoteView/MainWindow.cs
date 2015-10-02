@@ -27,12 +27,14 @@ public partial class MainWindow: Gtk.Window
 	{
         var render = new CellRendererText[] { new CellRendererText(), 
                                               new CellRendererText(), 
-                                              new CellRendererText() 
+                                              new CellRendererText(),
+                                              new CellRendererText()
                                             };
 
         gridQuotes.AppendColumn("Name", render[0], "Name").AddAttribute(render[0], "text", 0);        
         gridQuotes.AppendColumn("Symbol", render[1], "Symbol").AddAttribute(render[1], "text", 1);        
         gridQuotes.AppendColumn("Last", render[2], "Last").AddAttribute(render[2], "text", 2);
+        gridQuotes.AppendColumn("Change", render[3], "Change").AddAttribute(render[3], "text", 3);
 		
         gridQuotes.ShowAll();
 	}
@@ -41,9 +43,9 @@ public partial class MainWindow: Gtk.Window
 
 	void UpdateGrid (List<StockQuote> quotes)
 	{
-        var gridModel = new ListStore (typeof (string), typeof (string), typeof (string));
+        var gridModel = new ListStore (typeof (string), typeof (string), typeof (string), typeof(string));
         foreach (var q in quotes)
-            gridModel.AppendValues(q.Name, q.Symbol, q.Last.ToString("C"));
+            gridModel.AppendValues(q.Name, q.Symbol, q.Last.ToString("C"), q.Change);
 
         gridQuotes.Model = gridModel;
         gridQuotes.ColumnsAutosize();
@@ -61,8 +63,7 @@ public partial class MainWindow: Gtk.Window
 
             var qs = new QuoteService ();
             var quotes = qs.GetStockQuoteAsync(symbols);
-            UpdateGrid(await quotes);
-            
+            UpdateGrid(await quotes);            
         } 
         catch(Exception ex)
         {
@@ -71,7 +72,6 @@ public partial class MainWindow: Gtk.Window
                                         DialogFlags.DestroyWithParent,
                                         MessageType.Error, 
                                         ButtonsType.Ok, ex.Message);
-
             md.Run ();
             md.Destroy();
         }
