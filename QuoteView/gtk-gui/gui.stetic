@@ -7,9 +7,36 @@
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="MonoDevelop.Ide, Version=2.6.0.0, Culture=neutral" />
-    <widget-library name="../bin/Release/QuoteView.exe" internal="true" />
+    <widget-library name="../bin/Debug/QuoteView.exe" internal="true" />
+    <widget-library name="../../libWindowsControls/bin/Debug/libWindowsControls.dll" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="468 421">
+  <widget class="Gtk.Window" id="MainWindow" design-size="478 421">
+    <action-group name="Default">
+      <action id="FileAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_File</property>
+        <property name="ShortLabel" translatable="yes">_File</property>
+      </action>
+      <action id="addAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Add Portfolio</property>
+        <property name="ShortLabel" translatable="yes">_Add Portfolio</property>
+        <property name="StockId">gtk-add</property>
+        <signal name="Activated" handler="OnAddActionToggled" />
+      </action>
+      <action id="saveAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Save</property>
+        <property name="ShortLabel" translatable="yes">_Save</property>
+        <property name="StockId">gtk-save</property>
+        <signal name="Activated" handler="OnSaveActionToggled" />
+      </action>
+      <action id="Action">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">-</property>
+        <property name="ShortLabel" translatable="yes">-</property>
+      </action>
+    </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">Stock Quote App</property>
     <property name="Icon">stock:gtk-preferences Menu</property>
@@ -21,6 +48,24 @@
         <property name="Spacing">6</property>
         <property name="BorderWidth">10</property>
         <child>
+          <widget class="Gtk.MenuBar" id="menubar1">
+            <property name="MemberName" />
+            <node name="menubar1" type="Menubar">
+              <node type="Menu" action="FileAction">
+                <node type="Menuitem" action="addAction" />
+                <node type="Separator" />
+                <node type="Menuitem" action="saveAction" />
+              </node>
+            </node>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
           <widget class="Gtk.Frame" id="frame2">
             <property name="MemberName" />
             <property name="ShadowType">Out</property>
@@ -31,16 +76,16 @@
                 <property name="MemberName" />
                 <property name="Xalign">0</property>
                 <property name="Yalign">0</property>
-                <property name="LeftPadding">12</property>
                 <child>
                   <widget class="Gtk.VBox" id="vbox4">
                     <property name="MemberName" />
-                    <property name="Spacing">6</property>
+                    <property name="Spacing">5</property>
+                    <property name="BorderWidth">10</property>
                     <child>
                       <widget class="Gtk.Entry" id="txtSymbols">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
-                        <property name="Text" translatable="yes">BAC, C, CS, GS, JPM, MS, MSFT, IBM, MMM</property>
+                        <property name="Text" translatable="yes">BAC, C, CS, GS, JPM, MS, MSFT, IBM, CSCO, AAPL, CSC, -DJIA, XOM, RTN</property>
                         <property name="IsEditable">True</property>
                         <property name="InvisibleChar">●</property>
                       </widget>
@@ -95,7 +140,7 @@
               <widget class="Gtk.Label" id="GtkLabel1">
                 <property name="MemberName" />
                 <property name="WidthRequest">250</property>
-                <property name="HeightRequest">28</property>
+                <property name="HeightRequest">42</property>
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Enter comma seperated symbol(s)&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
               </widget>
@@ -105,17 +150,19 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">0</property>
+            <property name="Position">1</property>
             <property name="AutoSize">True</property>
           </packing>
         </child>
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="QuoteView.Portfolios" design-size="400 300">
+  <widget class="Gtk.Dialog" id="QuoteView.PortfolioMgr" design-size="400 300">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">dialog1</property>
+    <property name="Title" translatable="yes">Add Portfolio</property>
+    <property name="Icon">stock:gtk-new Menu</property>
     <property name="WindowPosition">CenterOnParent</property>
+    <property name="Modal">True</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
     <child internal-child="VBox">
@@ -123,7 +170,55 @@
         <property name="MemberName" />
         <property name="BorderWidth">2</property>
         <child>
-          <placeholder />
+          <widget class="Gtk.VBox" id="vbox2">
+            <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <property name="BorderWidth">3</property>
+            <child>
+              <widget class="Gtk.Label" id="label1">
+                <property name="MemberName" />
+                <property name="Xpad">6</property>
+                <property name="Xalign">0</property>
+                <property name="LabelProp" translatable="yes">Portfolio Name</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Entry" id="entry3">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Text" translatable="yes">Enter name . . .</property>
+                <property name="IsEditable">True</property>
+                <property name="MaxLength">100</property>
+                <property name="InvisibleChar">●</property>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">False</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Windows.Controls.ListBox" id="listbox2">
+                <property name="MemberName" />
+                <property name="Events">ButtonPressMask</property>
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+                <property name="AutoSize">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+          </packing>
         </child>
       </widget>
     </child>
@@ -143,6 +238,7 @@
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-cancel</property>
             <property name="ResponseId">-6</property>
+            <signal name="Clicked" handler="OnButtonCancelClicked" />
             <property name="label">gtk-cancel</property>
           </widget>
           <packing>
@@ -159,6 +255,7 @@
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-ok</property>
             <property name="ResponseId">-5</property>
+            <signal name="Clicked" handler="OnButtonOkClicked" />
             <property name="label">gtk-ok</property>
           </widget>
           <packing>

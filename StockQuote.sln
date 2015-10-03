@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockQuote", "StockQuote\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuoteView", "QuoteView\QuoteView.csproj", "{EC705537-9186-4E7E-9B4C-44F9E43B4003}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libWindowsControls", "libWindowsControls\libWindowsControls.csproj", "{9B10E543-D05B-4BA5-A590-C877AA3C07E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{8CCCA5CD-6AEA-42D5-B482-44413675B8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CCCA5CD-6AEA-42D5-B482-44413675B8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CCCA5CD-6AEA-42D5-B482-44413675B8B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B10E543-D05B-4BA5-A590-C877AA3C07E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B10E543-D05B-4BA5-A590-C877AA3C07E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B10E543-D05B-4BA5-A590-C877AA3C07E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B10E543-D05B-4BA5-A590-C877AA3C07E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EC705537-9186-4E7E-9B4C-44F9E43B4003}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{EC705537-9186-4E7E-9B4C-44F9E43B4003}.Debug|Any CPU.Build.0 = Debug|x86
 		{EC705537-9186-4E7E-9B4C-44F9E43B4003}.Release|Any CPU.ActiveCfg = Release|x86

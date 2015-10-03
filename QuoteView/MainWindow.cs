@@ -5,6 +5,7 @@ using Bloomberg;
 using Gtk;
 using System.Windows.Input;
 using Gdk;
+using System.Linq;
 
 public partial class MainWindow: Gtk.Window
 {
@@ -25,6 +26,7 @@ public partial class MainWindow: Gtk.Window
 
 	void BuildInternal()
 	{
+        this.GtkLabel1.HeightRequest = 17;
         var render = new CellRendererText[] { new CellRendererText(), 
                                               new CellRendererText(), 
                                               new CellRendererText(),
@@ -80,5 +82,26 @@ public partial class MainWindow: Gtk.Window
             btnQuote.Sensitive = true;
             this.GdkWindow.Cursor = new Cursor(cursor);
         }
+    }
+
+    protected void OnSaveActionToggled(object sender, EventArgs e)
+    {
+        //this.txtSymbols.Text = "BAC,C,CS,GS,JPM,MS";
+
+        var symbols = this.txtSymbols.Text;
+        var dialog = new QuoteView.PortfolioMgr();
+        dialog.Modal = true;
+        dialog.AddRange(symbols.Split(new char[] {','}));
+        dialog.Run();
+        dialog.Destroy();
+    }
+ 
+    protected void OnAddActionToggled(object sender, EventArgs e)
+    {
+        //this.txtSymbols.Text = "RTN,LMT, MSFT,GOOG,GOOGL,AAPL,IBM,CSCO";
+        var dialog = new QuoteView.PortfolioMgr();
+        dialog.Modal = true;
+        dialog.Run();
+        dialog.Destroy();
     }
 }

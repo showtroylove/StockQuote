@@ -69,8 +69,8 @@ stock symbols and returns real-time market price information for NYSE, NASDAQ an
     <Compile Include="gtk-gui\MainWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Portfolios.cs" />
-    <Compile Include="gtk-gui\QuoteView.Portfolios.cs" />
+    <Compile Include="PortfolioMgr.cs" />
+    <Compile Include="gtk-gui\QuoteView.PortfolioMgr.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -80,6 +80,10 @@ stock symbols and returns real-time market price information for NYSE, NASDAQ an
     <ProjectReference Include="..\libquotesvs\libquotesvs.csproj">
       <Project>{8CCCA5CD-6AEA-42D5-B482-44413675B8B1}</Project>
       <Name>libquotesvs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libWindowsControls\libWindowsControls.csproj">
+      <Project>{9B10E543-D05B-4BA5-A590-C877AA3C07E5}</Project>
+      <Name>libWindowsControls</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
