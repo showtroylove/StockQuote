@@ -85,8 +85,7 @@ public partial class MainWindow: Gtk.Window
     }
 
     protected void OnSaveActionToggled(object sender, EventArgs e)
-    {
-        //this.txtSymbols.Text = "BAC,C,CS,GS,JPM,MS";
+    {        
         var symbols = this.txtSymbols.Text;
         var dialog = new QuoteView.PortfolioMgr();
 
@@ -96,6 +95,8 @@ public partial class MainWindow: Gtk.Window
             dialog.Modal = true;
             dialog.AddRange(symbols.Split(new char[] { ',' }));
             dialog.Run();
+            if(dialog.Portfolio.Symbols.Any())
+                this.txtSymbols.Text = string.Join(",", dialog.Portfolio.Symbols);
         }
         finally
         {
@@ -104,14 +105,15 @@ public partial class MainWindow: Gtk.Window
     }
  
     protected void OnAddActionToggled(object sender, EventArgs e)
-    {
-        //this.txtSymbols.Text = "RTN,LMT, MSFT,GOOG,GOOGL,AAPL,IBM,CSCO";
+    {        
         var dialog = new QuoteView.PortfolioMgr();
 
         try
         {
             dialog.Modal = true;
             dialog.Run();
+            if(dialog.Portfolio.Symbols.Any())
+                this.txtSymbols.Text = string.Join(",", dialog.Portfolio.Symbols);
         }
         finally
         {

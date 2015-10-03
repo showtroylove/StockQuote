@@ -44,6 +44,7 @@
     <Compile Include="ListBox.cs" />
     <Compile Include="gtk-gui\Windows.Controls.ListBox.cs" />
     <Compile Include="StockSymbols.cs" />
+    <Compile Include="Portfolio.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -53,6 +54,8 @@
     <EmbeddedResource Include="Resources\AMEX.csv" />
     <EmbeddedResource Include="Resources\NASDAQ.csv" />
     <EmbeddedResource Include="Resources\NYSE.csv" />
+    <EmbeddedResource Include="Resources\meeting-observer.png" />
+    <EmbeddedResource Include="Resources\security-high.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

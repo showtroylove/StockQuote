@@ -8,7 +8,7 @@ namespace QuoteView
 		
 		private global::Gtk.Label label1;
 		
-		private global::Gtk.Entry entry3;
+		private global::Gtk.Entry txtPortfolioName;
 		
 		private global::Windows.Controls.ListBox listbox2;
 		
@@ -46,15 +46,14 @@ namespace QuoteView
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.entry3 = new global::Gtk.Entry ();
-			this.entry3.CanFocus = true;
-			this.entry3.Name = "entry3";
-			this.entry3.Text = global::Mono.Unix.Catalog.GetString ("Enter name . . .");
-			this.entry3.IsEditable = true;
-			this.entry3.MaxLength = 100;
-			this.entry3.InvisibleChar = '●';
-			this.vbox2.Add (this.entry3);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.entry3]));
+			this.txtPortfolioName = new global::Gtk.Entry ();
+			this.txtPortfolioName.CanFocus = true;
+			this.txtPortfolioName.Name = "txtPortfolioName";
+			this.txtPortfolioName.IsEditable = true;
+			this.txtPortfolioName.MaxLength = 100;
+			this.txtPortfolioName.InvisibleChar = '●';
+			this.vbox2.Add (this.txtPortfolioName);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.txtPortfolioName]));
 			w3.Position = 1;
 			w3.Expand = false;
 			w3.Fill = false;
@@ -105,6 +104,7 @@ namespace QuoteView
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 300;
 			this.Show ();
+			this.txtPortfolioName.EditingDone += new global::System.EventHandler (this.OnTxtPortfolioNameEditingDone);
 			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}

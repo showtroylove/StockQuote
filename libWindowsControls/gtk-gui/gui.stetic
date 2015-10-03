@@ -7,6 +7,13 @@
   <import>
     <widget-library name="../bin/Debug/libWindowsControls.dll" internal="true" />
   </import>
+  <icon-factory>
+    <icon-set id="gtk-execute">
+      <source>
+        <property name="Image">stock:gtk-execute Menu</property>
+      </source>
+    </icon-set>
+  </icon-factory>
   <widget class="Gtk.Bin" id="Windows.Controls.ListBox" design-size="336 300">
     <property name="MemberName" />
     <property name="Visible">False</property>
@@ -65,7 +72,6 @@
                 <property name="Tooltip" translatable="yes">Press delete to remove symbols from portfolio.</property>
                 <property name="CanFocus">True</property>
                 <property name="ShowScrollbars">True</property>
-                <property name="HoverSelection">True</property>
                 <signal name="KeyReleaseEvent" handler="OnListboxKeyReleaseEvent" />
               </widget>
             </child>

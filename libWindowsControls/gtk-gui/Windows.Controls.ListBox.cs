@@ -63,7 +63,6 @@ namespace Windows.Controls
 			this.listbox.TooltipMarkup = "Press delete to remove symbols from portfolio.";
 			this.listbox.CanFocus = true;
 			this.listbox.Name = "listbox";
-			this.listbox.HoverSelection = true;
 			this.GtkScrolledWindow.Add (this.listbox);
 			this.vbox1.Add (this.GtkScrolledWindow);
 			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
