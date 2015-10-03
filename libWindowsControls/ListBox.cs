@@ -72,14 +72,9 @@ namespace Windows.Controls
             btnAdd.Sensitive = !string.IsNullOrEmpty(comboboxentry.ActiveText);
         }
 
-        protected void OnListboxDeleteEvent(object o, DeleteEventArgs args)
+        protected void OnListboxKeyReleaseEvent(object o, KeyReleaseEventArgs args)
         {
-            listbox.Selection.SelectedForeach(TreeSelectionForeachFuncHandler);
-        }
-
-        void TreeSelectionForeachFuncHandler(TreeModel model, TreePath path, TreeIter iter)
-        {
-
+            comboboxentry.Entry.Text = "Selected";
         }
     }
 }

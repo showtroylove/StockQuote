@@ -87,21 +87,50 @@ public partial class MainWindow: Gtk.Window
     protected void OnSaveActionToggled(object sender, EventArgs e)
     {
         //this.txtSymbols.Text = "BAC,C,CS,GS,JPM,MS";
-
         var symbols = this.txtSymbols.Text;
         var dialog = new QuoteView.PortfolioMgr();
-        dialog.Modal = true;
-        dialog.AddRange(symbols.Split(new char[] {','}));
-        dialog.Run();
-        dialog.Destroy();
+
+        try
+        {
+            dialog.Title = "Save Portfolio";
+            dialog.Modal = true;
+            dialog.AddRange(symbols.Split(new char[] { ',' }));
+            dialog.Run();
+        }
+        finally
+        {
+            dialog.Destroy();
+        }
     }
  
     protected void OnAddActionToggled(object sender, EventArgs e)
     {
         //this.txtSymbols.Text = "RTN,LMT, MSFT,GOOG,GOOGL,AAPL,IBM,CSCO";
         var dialog = new QuoteView.PortfolioMgr();
-        dialog.Modal = true;
-        dialog.Run();
-        dialog.Destroy();
+
+        try
+        {
+            dialog.Modal = true;
+            dialog.Run();
+        }
+        finally
+        {
+            dialog.Destroy();
+        }
+    }
+
+    public void GuiWaitCursorAction(System.Action waitcursoraction)
+    {
+        var cursor = Gdk.CursorType.LeftPtr;
+
+        try
+        {
+            this.GdkWindow.Cursor = new Cursor(Gdk.CursorType.Watch);    
+            waitcursoraction();
+        }
+        finally
+        {
+            this.GdkWindow.Cursor = new Cursor(cursor);
+        }
     }
 }

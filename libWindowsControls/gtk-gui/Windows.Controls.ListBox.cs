@@ -75,7 +75,7 @@ namespace Windows.Controls
 			this.Hide ();
 			this.comboboxentry.Changed += new global::System.EventHandler (this.OnComboboxentryChanged);
 			this.btnAdd.Clicked += new global::System.EventHandler (this.OnBtnAddClicked);
-			this.listbox.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnListboxDeleteEvent);
+			this.listbox.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnListboxKeyReleaseEvent);
 		}
 	}
 }
