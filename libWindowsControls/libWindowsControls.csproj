@@ -59,6 +59,15 @@
     <EmbeddedResource Include="Resources\NYSE.csv" />
     <EmbeddedResource Include="Resources\meeting-observer.png" />
     <EmbeddedResource Include="Resources\security-high.png" />
+    <EmbeddedResource Include="Resources\flag_blue.png" />
+    <EmbeddedResource Include="Resources\flag_green.png" />
+    <EmbeddedResource Include="Resources\flag_orange.png" />
+    <EmbeddedResource Include="Resources\medal_bronze_1.png" />
+    <EmbeddedResource Include="Resources\medal_gold_2.png" />
+    <EmbeddedResource Include="Resources\medal_silver_3.png" />
+    <EmbeddedResource Include="Resources\AMEX.png" />
+    <EmbeddedResource Include="Resources\NYSE.png" />
+    <EmbeddedResource Include="Resources\NASDAQ.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

@@ -12,24 +12,32 @@ namespace Windows.Controls.Data
 {
     public class StockSymbols : ListStore
     {
-        protected ConcurrentDictionary<string,string> MarketSymbols { get; private set; }
         public Dictionary<string,string> Symbols { get; private set; }
-        protected Gdk.Pixbuf icon;
+        protected ConcurrentDictionary<string,string> MarketSymbols { get; private set; }
+        protected Gdk.Pixbuf[] icon;
+        string[] resourceName;
 
         public StockSymbols() : base(typeof(string), typeof(string), typeof (Gdk.Pixbuf))
         {
-            icon = new Gdk.Pixbuf(Assembly.GetExecutingAssembly(), "Windows.Controls.Resources.security-high.png");
+            var asm = Assembly.GetExecutingAssembly();
+            icon = new Gdk.Pixbuf[] 
+                { 
+                    new Gdk.Pixbuf(asm, "Windows.Controls.Resources.NYSE.png"),
+                    new Gdk.Pixbuf(asm, "Windows.Controls.Resources.NASDAQ.png"),
+                    new Gdk.Pixbuf(asm, "Windows.Controls.Resources.AMEX.png")
+                };
+
             LoadSymbols();
         }
 
         private void LoadSymbols()
         {
-
             MarketSymbols = new ConcurrentDictionary<string, string>();
-            var resourceName = new string[] { 
-                    "Windows.Controls.Resources.AMEX.csv", 
+            resourceName = new string[] 
+                { 
+                    "Windows.Controls.Resources.NYSE.csv",                     
                     "Windows.Controls.Resources.NASDAQ.csv",
-                    "Windows.Controls.Resources.NYSE.csv"                
+                    "Windows.Controls.Resources.AMEX.csv"                                    
                 };
 
             var asm = Assembly.GetExecutingAssembly();
@@ -39,25 +47,34 @@ namespace Windows.Controls.Data
                 return;
 
             Symbols = MarketSymbols.OrderBy(x => x.Key).ToDictionary(k => k.Key, v => v.Value);
+            for (int i = 0; i < Symbols.Count; i++)
+            {
+                var itm = Symbols.ElementAt(i);
+                var idx = int.Parse(itm.Value.Substring(0, 1));
 
-            foreach (var itm in Symbols)    
-                this.AppendValues(itm.Key, itm.Value, icon);
+                // Stripping the market index char
+                var val = itm.Value.Substring(1);
+                Symbols[itm.Key] = val;
+                this.AppendValues(itm.Key,val , icon[idx]);
+            }
         }
 
-        private void ReadResourceSymbolFile(string resourceName, Assembly assembly = null)
+        private void ReadResourceSymbolFile(string embeddedresname, Assembly assembly = null)
         {
             if (null == assembly)
                 assembly = Assembly.GetExecutingAssembly();
 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            var mktidx = Array.FindIndex(resourceName, x => x == embeddedresname).ToString();
+            
+            using (Stream stream = assembly.GetManifestResourceStream(embeddedresname))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     while (!reader.EndOfStream)
                     {
-                        var line = reader.ReadLine();
-                        var symbol = line.Replace("\"","").Split(new char[] { ',' });
-                        MarketSymbols[symbol[0].Trim()] = symbol[1].Trim();
+                        var line = reader.ReadLine();                        
+                        var symbol = line.Split(new char[] { ',' });
+                        MarketSymbols[symbol[0].Trim()] = mktidx + symbol[1].Trim();
                     }
                 }
             }

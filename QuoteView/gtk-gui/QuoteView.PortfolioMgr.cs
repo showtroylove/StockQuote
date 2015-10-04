@@ -80,6 +80,7 @@ namespace QuoteView
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.UseStock = true;
 			this.buttonCancel.UseUnderline = true;
+			this.buttonCancel.Relief = ((global::Gtk.ReliefStyle)(2));
 			this.buttonCancel.Label = "gtk-cancel";
 			this.AddActionWidget (this.buttonCancel, -6);
 			global::Gtk.ButtonBox.ButtonBoxChild w7 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w6 [this.buttonCancel]));
@@ -92,6 +93,7 @@ namespace QuoteView
 			this.buttonOk.Name = "buttonOk";
 			this.buttonOk.UseStock = true;
 			this.buttonOk.UseUnderline = true;
+			this.buttonOk.Relief = ((global::Gtk.ReliefStyle)(2));
 			this.buttonOk.Label = "gtk-ok";
 			this.AddActionWidget (this.buttonOk, -5);
 			global::Gtk.ButtonBox.ButtonBoxChild w8 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w6 [this.buttonOk]));
@@ -104,7 +106,7 @@ namespace QuoteView
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 300;
 			this.Show ();
-			this.txtPortfolioName.EditingDone += new global::System.EventHandler (this.OnTxtPortfolioNameEditingDone);
+			this.txtPortfolioName.Changed += new global::System.EventHandler (this.OnTxtPortfolioNameChanged);
 			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}

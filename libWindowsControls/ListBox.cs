@@ -30,7 +30,7 @@ namespace Windows.Controls
             icon = new Gdk.Pixbuf(Assembly.GetExecutingAssembly(), "Windows.Controls.Resources.meeting-observer.png");
             mktSymbols = new StockSymbols();
             portSymbols = new ListStore (typeof(Gdk.Pixbuf), typeof (string), typeof (string));
-            Portfolio = new Portfolio();
+            portfolio = new Portfolio();
 
             // local var init
             var imgRndr = new CellRendererPixbuf();
@@ -60,14 +60,31 @@ namespace Windows.Controls
             comboboxentry.Model = mktSymbols;
 
             // Listbox will display the symbol and company name
-            listbox.AppendColumn("-", imgRndr, "pixbuf", 0);        
+            listbox.AppendColumn(" ", imgRndr, "pixbuf", 0);        
             listbox.AppendColumn("Symbol", render[0], "text", 1);        
             listbox.AppendColumn("Name", render[1], "text", 2);    
             listbox.Model = portSymbols;
             listbox.ShowAll();
         }
 
-        public Portfolio Portfolio { get; set; }
+        Portfolio portfolio;
+        public Portfolio Portfolio
+        {
+            get
+            {
+                return portfolio;
+            }
+            set
+            {
+                if (!value.Symbols.Any())
+                    return;
+
+                portSymbols.Clear();
+                portfolio.Symbols.Clear();
+                AddRange(value.Symbols);
+                portfolio = value;
+            }
+        }
 
         public void AddRange(IList<string> csvsymbol)
         {
@@ -87,7 +104,8 @@ namespace Windows.Controls
                 return;
 
             //Maintain list of symbols for caller.
-            Portfolio.Symbols.Add(sym);
+            if(!Portfolio.Symbols.Contains(sym))
+                Portfolio.Symbols.Add(sym);
             listbox.ColumnsAutosize();
             comboboxentry.Entry.Text = string.Empty;
         }

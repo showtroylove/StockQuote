@@ -7,21 +7,21 @@
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="MonoDevelop.Ide, Version=2.6.0.0, Culture=neutral" />
-    <widget-library name="../../libWindowsControls/bin/Release/libWindowsControls.dll" />
-    <widget-library name="../bin/Release/QuoteView.exe" internal="true" />
+    <widget-library name="../../libWindowsControls/bin/Debug/libWindowsControls.dll" />
+    <widget-library name="../bin/Debug/QuoteView.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="478 421">
+  <widget class="Gtk.Window" id="MainWindow" design-size="500 421">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">_File</property>
         <property name="ShortLabel" translatable="yes">_File</property>
       </action>
-      <action id="addAction">
+      <action id="preferencesAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">_Add Portfolio</property>
         <property name="ShortLabel" translatable="yes">_Add Portfolio</property>
-        <property name="StockId">gtk-add</property>
+        <property name="StockId">gtk-preferences</property>
         <signal name="Activated" handler="OnAddActionToggled" />
       </action>
       <action id="saveAction">
@@ -35,6 +35,26 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">-</property>
         <property name="ShortLabel" translatable="yes">-</property>
+      </action>
+      <action id="mnuBook">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Book</property>
+        <property name="ShortLabel" translatable="yes">_Book</property>
+        <property name="StockId">gtk-open</property>
+      </action>
+      <action id="mnuDJIA">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">-DJIA</property>
+        <property name="ShortLabel" translatable="yes">-DJIA</property>
+        <property name="StockId">gtk-refresh</property>
+        <signal name="Activated" handler="OnPortfolioActivated" />
+      </action>
+      <action id="mnuNASDAQ">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">-NASDAQ</property>
+        <property name="ShortLabel" translatable="yes">-NASDAQ</property>
+        <property name="StockId">gtk-refresh</property>
+        <signal name="Activated" handler="OnPortfolioActivated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -52,9 +72,13 @@
             <property name="MemberName" />
             <node name="menubar1" type="Menubar">
               <node type="Menu" action="FileAction">
-                <node type="Menuitem" action="addAction" />
+                <node type="Menuitem" action="preferencesAction" />
                 <node type="Separator" />
                 <node type="Menuitem" action="saveAction" />
+                <node type="Menu" action="mnuBook">
+                  <node type="Menuitem" action="mnuDJIA" />
+                  <node type="Menuitem" action="mnuNASDAQ" />
+                </node>
               </node>
             </node>
           </widget>
@@ -88,6 +112,7 @@
                         <property name="Text" translatable="yes">BAC, C, CS, GS, JPM, MS, MSFT, IBM, CSCO, AAPL, CSC, -DJIA, XOM, RTN</property>
                         <property name="IsEditable">True</property>
                         <property name="InvisibleChar">●</property>
+                        <signal name="Changed" handler="OnTxtSymbolsChanged" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -106,6 +131,7 @@
                         <property name="Icon">stock:gtk-refresh Menu</property>
                         <property name="Label" translatable="yes">Quote</property>
                         <property name="UseUnderline">True</property>
+                        <property name="Relief">None</property>
                         <signal name="Clicked" handler="QuoteButton_OnClick" />
                       </widget>
                       <packing>
@@ -124,6 +150,7 @@
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="ShowScrollbars">True</property>
+                            <property name="Reorderable">True</property>
                           </widget>
                         </child>
                       </widget>
@@ -140,7 +167,7 @@
               <widget class="Gtk.Label" id="GtkLabel1">
                 <property name="MemberName" />
                 <property name="WidthRequest">250</property>
-                <property name="HeightRequest">56</property>
+                <property name="HeightRequest">28</property>
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Enter comma seperated symbol(s)&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
               </widget>
@@ -195,7 +222,7 @@
                 <property name="IsEditable">True</property>
                 <property name="MaxLength">100</property>
                 <property name="InvisibleChar">●</property>
-                <signal name="EditingDone" handler="OnTxtPortfolioNameEditingDone" />
+                <signal name="Changed" handler="OnTxtPortfolioNameChanged" />
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -238,6 +265,7 @@
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-cancel</property>
             <property name="ResponseId">-6</property>
+            <property name="Relief">None</property>
             <signal name="Clicked" handler="OnButtonCancelClicked" />
             <property name="label">gtk-cancel</property>
           </widget>
@@ -255,6 +283,7 @@
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-ok</property>
             <property name="ResponseId">-5</property>
+            <property name="Relief">None</property>
             <signal name="Clicked" handler="OnButtonOkClicked" />
             <property name="label">gtk-ok</property>
           </widget>
