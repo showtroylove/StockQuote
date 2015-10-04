@@ -11,7 +11,7 @@ public partial class MainWindow
 	
 	private global::Gtk.Action saveAction;
 	
-	private global::Gtk.Action _buggy;
+	private global::Gtk.Action _bug;
 	
 	private global::Gtk.VBox vbox2;
 	
@@ -48,9 +48,9 @@ public partial class MainWindow
 		this.saveAction = new global::Gtk.Action ("saveAction", global::Mono.Unix.Catalog.GetString ("_Save"), null, "gtk-save");
 		this.saveAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Save");
 		w1.Add (this.saveAction, null);
-		this._buggy = new global::Gtk.Action ("Action", global::Mono.Unix.Catalog.GetString ("-"), null, null);
-		this._buggy.ShortLabel = global::Mono.Unix.Catalog.GetString ("-");
-		w1.Add (this._buggy, null);
+		this._bug = new global::Gtk.Action ("_bug", global::Mono.Unix.Catalog.GetString ("-"), null, null);
+		this._bug.ShortLabel = global::Mono.Unix.Catalog.GetString ("-");
+		w1.Add (this._bug, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -128,7 +128,7 @@ public partial class MainWindow
 		this.frame2.Add (this.GtkAlignment);
 		this.GtkLabel1 = new global::Gtk.Label ();
 		this.GtkLabel1.WidthRequest = 250;
-		this.GtkLabel1.HeightRequest = 42;
+		this.GtkLabel1.HeightRequest = 56;
 		this.GtkLabel1.Name = "GtkLabel1";
 		this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Enter comma seperated symbol(s)</b>");
 		this.GtkLabel1.UseMarkup = true;

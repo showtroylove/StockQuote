@@ -23,6 +23,7 @@ namespace QuoteView
 
         protected void OnButtonOkClicked(object sender, EventArgs e)
         {            
+            listbox2.Portfolio.Name = txtPortfolioName.Text;
         }
 
         protected void OnButtonCancelClicked(object sender, EventArgs e)

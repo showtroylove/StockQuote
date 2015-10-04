@@ -5,7 +5,7 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../bin/Debug/libWindowsControls.dll" internal="true" />
+    <widget-library name="../bin/Release/libWindowsControls.dll" internal="true" />
   </import>
   <icon-factory>
     <icon-set id="gtk-execute">
