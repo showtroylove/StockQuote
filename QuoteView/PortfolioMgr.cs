@@ -9,11 +9,22 @@ namespace QuoteView
         public PortfolioMgr ()
         {
             this.Build();    
+            buttonOk.Sensitive = false;
         }
 
         public Portfolio Portfolio
         {
-            get{ return listbox2.Portfolio;}
+            get
+            { 
+                return listbox2.Portfolio;
+            }
+            set
+            { 
+                if (null == value || value.Symbols.Count == 0)
+                    return;
+                listbox2.Portfolio = value;
+                txtPortfolioName.Text = value.Name;
+            }
         }
 
         public void AddRange(IList<string> csvsymbol) 
@@ -23,7 +34,7 @@ namespace QuoteView
 
         protected void OnButtonOkClicked(object sender, EventArgs e)
         {            
-            listbox2.Portfolio.Name = txtPortfolioName.Text;
+            listbox2.Portfolio.Name = txtPortfolioName.Text.Trim().ToUpper();
         }
 
         protected void OnButtonCancelClicked(object sender, EventArgs e)
@@ -33,6 +44,11 @@ namespace QuoteView
         protected void OnTxtPortfolioNameEditingDone(object sender, EventArgs e)
         {
             listbox2.Portfolio.Name = txtPortfolioName.Text;
+        }
+
+        protected void OnTxtPortfolioNameChanged(object sender, EventArgs e)
+        {
+            buttonOk.Sensitive = !string.IsNullOrEmpty(txtPortfolioName.Text.Trim());
         }
     }
 }

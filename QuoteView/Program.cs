@@ -8,9 +8,22 @@ namespace QuoteView
         public static void Main(string[] args)
         {
             Application.Init();
-            MainWindow win = new MainWindow();
-            win.Show();
-            Application.Run();           
+            var win = new MainWindow();
+
+            try
+            {
+                win.Show();
+                Application.Run();           
+            }
+            catch(Exception ex)
+            {
+                var md = new MessageDialog (null, 
+                    DialogFlags.DestroyWithParent,
+                    MessageType.Error, 
+                    ButtonsType.Ok, ex.Message);
+                md.Run ();
+                md.Destroy();
+            }
         }
     }
 }

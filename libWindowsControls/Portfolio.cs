@@ -74,8 +74,10 @@ namespace Windows.Controls.Data
 
         [DataMember]
         public string Name { get; set; }
+
         [DataMember]
         public List<string> Symbols {get; internal set;}
+
         public string csvSymbols { get { return string.Join(",", Symbols); } }
     }
 
@@ -84,8 +86,7 @@ namespace Windows.Controls.Data
     public class Book : List<Portfolio>
     {
         public Book() : base()
-        {                        
-         
+        {   
         }
 
         public new void Add(Portfolio p)
@@ -96,12 +97,12 @@ namespace Windows.Controls.Data
                 return;
             }
 
-            var folio = this.FirstOrDefault( x => x == p);
+            var folio = this.Find( x => x == p);
             if(null == folio)
                 return;
 
-            var c = folio.Symbols.Count;
-            folio = p;                            
+            if (Remove(folio))
+                base.Add(p);                     
         }
 
         public void Save(string filename = null)
@@ -109,10 +110,28 @@ namespace Windows.Controls.Data
             var file = filename;
             if (string.IsNullOrEmpty(file))
                 file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "book.json");
-            using (var stream1 = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write))
+
+            using (var jsonStream = new FileStream(file, FileMode.Truncate, FileAccess.ReadWrite))
             {
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Book));
-                ser.WriteObject(stream1, this);
+                var ser = new DataContractJsonSerializer(typeof(Book));
+                ser.WriteObject(jsonStream, this);
+            }
+        }
+
+        public static Book Load(string filename = null)
+        {
+            var file = filename;
+            if (string.IsNullOrEmpty(file))
+                file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "book.json");
+
+            using (var jsonStream = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                var ser = new DataContractJsonSerializer(typeof(Book));
+                var obj = ser.ReadObject(jsonStream);
+                if (obj is Book)
+                    return obj as Book;
+                else
+                    return new Book();
             }
         }
     }

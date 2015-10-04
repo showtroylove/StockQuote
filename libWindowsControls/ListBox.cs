@@ -30,7 +30,7 @@ namespace Windows.Controls
             icon = new Gdk.Pixbuf(Assembly.GetExecutingAssembly(), "Windows.Controls.Resources.meeting-observer.png");
             mktSymbols = new StockSymbols();
             portSymbols = new ListStore (typeof(Gdk.Pixbuf), typeof (string), typeof (string));
-            Portfolio = new Portfolio();
+            portfolio = new Portfolio();
 
             // local var init
             var imgRndr = new CellRendererPixbuf();
@@ -67,7 +67,24 @@ namespace Windows.Controls
             listbox.ShowAll();
         }
 
-        public Portfolio Portfolio { get; set; }
+        Portfolio portfolio;
+        public Portfolio Portfolio
+        {
+            get
+            {
+                return portfolio;
+            }
+            set
+            {
+                if (!value.Symbols.Any())
+                    return;
+
+                portSymbols.Clear();
+                portfolio.Symbols.Clear();
+                AddRange(value.Symbols);
+                portfolio = value;
+            }
+        }
 
         public void AddRange(IList<string> csvsymbol)
         {
@@ -87,7 +104,8 @@ namespace Windows.Controls
                 return;
 
             //Maintain list of symbols for caller.
-            Portfolio.Symbols.Add(sym);
+            if(!Portfolio.Symbols.Contains(sym))
+                Portfolio.Symbols.Add(sym);
             listbox.ColumnsAutosize();
             comboboxentry.Entry.Text = string.Empty;
         }

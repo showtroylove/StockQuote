@@ -7,11 +7,17 @@ public partial class MainWindow
 	
 	private global::Gtk.Action FileAction;
 	
-	private global::Gtk.Action addAction;
+	private global::Gtk.Action preferencesAction;
 	
 	private global::Gtk.Action saveAction;
 	
 	private global::Gtk.Action _bug;
+	
+	private global::Gtk.Action mnuBook;
+	
+	private global::Gtk.Action mnuDjia;
+	
+	private global::Gtk.Action mnuNasdaq;
 	
 	private global::Gtk.VBox vbox2;
 	
@@ -42,15 +48,24 @@ public partial class MainWindow
 		this.FileAction = new global::Gtk.Action ("FileAction", global::Mono.Unix.Catalog.GetString ("_File"), null, null);
 		this.FileAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_File");
 		w1.Add (this.FileAction, null);
-		this.addAction = new global::Gtk.Action ("addAction", global::Mono.Unix.Catalog.GetString ("_Add Portfolio"), null, "gtk-add");
-		this.addAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Add Portfolio");
-		w1.Add (this.addAction, null);
+		this.preferencesAction = new global::Gtk.Action ("preferencesAction", global::Mono.Unix.Catalog.GetString ("_Add Portfolio"), null, "gtk-preferences");
+		this.preferencesAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Add Portfolio");
+		w1.Add (this.preferencesAction, null);
 		this.saveAction = new global::Gtk.Action ("saveAction", global::Mono.Unix.Catalog.GetString ("_Save"), null, "gtk-save");
 		this.saveAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Save");
 		w1.Add (this.saveAction, null);
 		this._bug = new global::Gtk.Action ("_bug", global::Mono.Unix.Catalog.GetString ("-"), null, null);
 		this._bug.ShortLabel = global::Mono.Unix.Catalog.GetString ("-");
 		w1.Add (this._bug, null);
+		this.mnuBook = new global::Gtk.Action ("mnuBook", global::Mono.Unix.Catalog.GetString ("_Book"), null, "gtk-open");
+		this.mnuBook.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Book");
+		w1.Add (this.mnuBook, null);
+		this.mnuDjia = new global::Gtk.Action ("mnuDjia", global::Mono.Unix.Catalog.GetString ("-_DJIA"), null, "gtk-refresh");
+		this.mnuDjia.ShortLabel = global::Mono.Unix.Catalog.GetString ("-_DJIA");
+		w1.Add (this.mnuDjia, null);
+		this.mnuNasdaq = new global::Gtk.Action ("mnuNasdaq", global::Mono.Unix.Catalog.GetString ("-_NASDAQ"), null, "gtk-refresh");
+		this.mnuNasdaq.ShortLabel = global::Mono.Unix.Catalog.GetString ("-_NASDAQ");
+		w1.Add (this.mnuNasdaq, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -63,7 +78,7 @@ public partial class MainWindow
 		this.vbox2.Spacing = 6;
 		this.vbox2.BorderWidth = ((uint)(10));
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='addAction' action='addAction'/><separator/><menuitem name='saveAction' action='saveAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='preferencesAction' action='preferencesAction'/><separator/><menuitem name='saveAction' action='saveAction'/><menu name='mnuBook' action='mnuBook'><menuitem name='mnuDjia' action='mnuDjia'/><menuitem name='mnuNasdaq' action='mnuNasdaq'/></menu></menu></menubar></ui>");
 		this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
 		this.menubar1.Name = "menubar1";
 		this.vbox2.Add (this.menubar1);
@@ -103,6 +118,7 @@ public partial class MainWindow
 		this.btnQuote.CanFocus = true;
 		this.btnQuote.Name = "btnQuote";
 		this.btnQuote.UseUnderline = true;
+		this.btnQuote.Relief = ((global::Gtk.ReliefStyle)(2));
 		this.btnQuote.Label = global::Mono.Unix.Catalog.GetString ("Quote");
 		global::Gtk.Image w4 = new global::Gtk.Image ();
 		w4.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-refresh", global::Gtk.IconSize.Menu);
@@ -120,6 +136,7 @@ public partial class MainWindow
 		this.gridQuotes = new global::Gtk.TreeView ();
 		this.gridQuotes.CanFocus = true;
 		this.gridQuotes.Name = "gridQuotes";
+		this.gridQuotes.Reorderable = true;
 		this.GtkScrolledWindow.Add (this.gridQuotes);
 		this.vbox4.Add (this.GtkScrolledWindow);
 		global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.GtkScrolledWindow]));
@@ -128,7 +145,7 @@ public partial class MainWindow
 		this.frame2.Add (this.GtkAlignment);
 		this.GtkLabel1 = new global::Gtk.Label ();
 		this.GtkLabel1.WidthRequest = 250;
-		this.GtkLabel1.HeightRequest = 56;
+		this.GtkLabel1.HeightRequest = 28;
 		this.GtkLabel1.Name = "GtkLabel1";
 		this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Enter comma seperated symbol(s)</b>");
 		this.GtkLabel1.UseMarkup = true;
@@ -140,13 +157,14 @@ public partial class MainWindow
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
-		this.DefaultWidth = 478;
+		this.DefaultWidth = 500;
 		this.DefaultHeight = 421;
 		this.btnQuote.HasDefault = true;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
-		this.addAction.Activated += new global::System.EventHandler (this.OnAddActionToggled);
+		this.preferencesAction.Activated += new global::System.EventHandler (this.OnAddActionToggled);
 		this.saveAction.Activated += new global::System.EventHandler (this.OnSaveActionToggled);
+		this.txtSymbols.Changed += new global::System.EventHandler (this.OnTxtSymbolsChanged);
 		this.btnQuote.Clicked += new global::System.EventHandler (this.QuoteButton_OnClick);
 	}
 }
