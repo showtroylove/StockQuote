@@ -17,30 +17,20 @@
         <property name="Label" translatable="yes">_File</property>
         <property name="ShortLabel" translatable="yes">_File</property>
       </action>
-      <action id="preferencesAction">
+      <action id="mnuManagePortfolios">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">_Add Portfolio</property>
-        <property name="ShortLabel" translatable="yes">_Add Portfolio</property>
+        <property name="Label" translatable="yes">_Manage Portfolios</property>
+        <property name="ShortLabel" translatable="yes">_Manage Portfolios</property>
         <property name="StockId">gtk-preferences</property>
-        <signal name="Activated" handler="OnAddActionToggled" />
+        <property name="Tooltip" translatable="yes">Create, updated, view and delete portfolios</property>
+        <signal name="Activated" handler="OnManagePortfolios" />
       </action>
-      <action id="saveAction">
+      <action id="mnuPortfolios">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">_Save</property>
-        <property name="ShortLabel" translatable="yes">_Save</property>
-        <property name="StockId">gtk-save</property>
-        <signal name="Activated" handler="OnSaveActionToggled" />
-      </action>
-      <action id="_bug">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">-</property>
-        <property name="ShortLabel" translatable="yes">-</property>
-      </action>
-      <action id="mnuBook">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">_Book</property>
-        <property name="ShortLabel" translatable="yes">_Book</property>
-        <property name="StockId">gtk-open</property>
+        <property name="Label" translatable="yes">_Portfolios</property>
+        <property name="ShortLabel" translatable="yes">_Portfolios</property>
+        <property name="StockId">gtk-dnd-multiple</property>
+        <property name="Tooltip" translatable="yes">Get quotes for a portfolio</property>
       </action>
       <action id="mnuDJIA">
         <property name="Type">Action</property>
@@ -55,6 +45,14 @@
         <property name="ShortLabel" translatable="yes">-NASDAQ</property>
         <property name="StockId">gtk-refresh</property>
         <signal name="Activated" handler="OnPortfolioActivated" />
+      </action>
+      <action id="mnuQuit">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Quit</property>
+        <property name="ShortLabel" translatable="yes">_Quit</property>
+        <property name="StockId">gtk-quit</property>
+        <property name="Tooltip" translatable="yes">Exit application</property>
+        <signal name="Activated" handler="OnMnuQuitActivated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -72,13 +70,15 @@
             <property name="MemberName" />
             <node name="menubar1" type="Menubar">
               <node type="Menu" action="FileAction">
-                <node type="Menuitem" action="preferencesAction" />
+                <node type="Menuitem" action="mnuManagePortfolios" />
                 <node type="Separator" />
-                <node type="Menuitem" action="saveAction" />
-                <node type="Menu" action="mnuBook">
+                <node type="Menu" action="mnuPortfolios">
                   <node type="Menuitem" action="mnuDJIA" />
                   <node type="Menuitem" action="mnuNASDAQ" />
+                  <node type="Separator" />
                 </node>
+                <node type="Separator" />
+                <node type="Menuitem" action="mnuQuit" />
               </node>
             </node>
           </widget>
@@ -109,10 +109,8 @@
                       <widget class="Gtk.Entry" id="txtSymbols">
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
-                        <property name="Text" translatable="yes">BAC, C, CS, GS, JPM, MS, MSFT, IBM, CSCO, AAPL, CSC, -DJIA, XOM, RTN</property>
                         <property name="IsEditable">True</property>
                         <property name="InvisibleChar">●</property>
-                        <signal name="Changed" handler="OnTxtSymbolsChanged" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -164,10 +162,10 @@
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel1">
+              <widget class="Gtk.Label" id="grpboxLabel">
                 <property name="MemberName" />
                 <property name="WidthRequest">250</property>
-                <property name="HeightRequest">28</property>
+                <property name="HeightRequest">56</property>
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Enter comma seperated symbol(s)&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
               </widget>
@@ -184,14 +182,15 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="QuoteView.PortfolioMgr" design-size="400 300">
+  <widget class="Gtk.Dialog" id="QuoteView.PortfolioMgr" design-size="400 370">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">Add Portfolio</property>
-    <property name="Icon">stock:gtk-new Menu</property>
+    <property name="Title" translatable="yes">Manage Portfolios</property>
+    <property name="Icon">stock:gtk-preferences Menu</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Modal">True</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child internal-child="VBox">
       <widget class="Gtk.VBox" id="dialog1_VBox">
         <property name="MemberName" />
@@ -216,23 +215,107 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Entry" id="txtPortfolioName">
+              <widget class="Gtk.HBox" id="hbox2">
                 <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <property name="IsEditable">True</property>
-                <property name="MaxLength">100</property>
-                <property name="InvisibleChar">●</property>
-                <signal name="Changed" handler="OnTxtPortfolioNameChanged" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.ComboBox" id="comboPortfolios">
+                    <property name="MemberName" />
+                    <property name="Tooltip" translatable="yes">Select Portfolio to edit</property>
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes" />
+                    <signal name="Changed" handler="OnComboPortfoliosChanged" />
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Entry" id="txtPortfolioName">
+                    <property name="MemberName" />
+                    <property name="Visible">False</property>
+                    <property name="Tooltip" translatable="yes">Enter new name</property>
+                    <property name="CanFocus">True</property>
+                    <property name="Text" translatable="yes">Enter new name here, add one symbol to complete...</property>
+                    <property name="IsEditable">True</property>
+                    <property name="MaxLength">100</property>
+                    <property name="InvisibleChar">●</property>
+                    <signal name="Changed" handler="OnTxtPortfolioNameChanged" />
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Button" id="btnNew">
+                    <property name="MemberName" />
+                    <property name="WidthRequest">0</property>
+                    <property name="Tooltip" translatable="yes">New Portfolio</property>
+                    <property name="CanFocus">True</property>
+                    <property name="Type">TextAndIcon</property>
+                    <property name="Icon">stock:gtk-new Menu</property>
+                    <property name="Label" translatable="yes" />
+                    <property name="UseUnderline">True</property>
+                    <property name="Relief">None</property>
+                    <signal name="Clicked" handler="OnBtnNewClicked" />
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Button" id="btnRename">
+                    <property name="MemberName" />
+                    <property name="Tooltip" translatable="yes">Rename portfolio</property>
+                    <property name="CanFocus">True</property>
+                    <property name="Type">TextAndIcon</property>
+                    <property name="Icon">resource:QuoteView.Resources.rename-unlocked.png</property>
+                    <property name="Label" translatable="yes" />
+                    <property name="UseUnderline">True</property>
+                    <property name="Relief">None</property>
+                    <signal name="Clicked" handler="OnBtnRenameClicked" />
+                  </widget>
+                  <packing>
+                    <property name="Position">3</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Button" id="btnDelete">
+                    <property name="MemberName" />
+                    <property name="Tooltip" translatable="yes">Delete portfolio</property>
+                    <property name="CanFocus">True</property>
+                    <property name="Type">TextAndIcon</property>
+                    <property name="Icon">stock:gtk-remove Button</property>
+                    <property name="Label" translatable="yes" />
+                    <property name="UseUnderline">True</property>
+                    <property name="Relief">None</property>
+                    <signal name="Clicked" handler="OnBtnDeleteClicked" />
+                  </widget>
+                  <packing>
+                    <property name="Position">4</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
                 <property name="Position">1</property>
-                <property name="AutoSize">False</property>
+                <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
               </packing>
             </child>
             <child>
-              <widget class="Windows.Controls.ListBox" id="listbox2">
+              <widget class="Windows.Controls.ListBox" id="listSymbols">
                 <property name="MemberName" />
                 <property name="Events">ButtonPressMask</property>
               </widget>

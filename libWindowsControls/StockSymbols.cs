@@ -3,29 +3,31 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Gtk;
+using System.Reflection;
 
 namespace Windows.Controls.Data
 {
     public class StockSymbols : ListStore
     {
         public Dictionary<string,string> Symbols { get; private set; }
+
         protected ConcurrentDictionary<string,string> MarketSymbols { get; private set; }
+
         protected Gdk.Pixbuf[] icon;
         string[] resourceName;
 
-        public StockSymbols() : base(typeof(string), typeof(string), typeof (Gdk.Pixbuf))
-        {
-            var asm = Assembly.GetExecutingAssembly();
-            icon = new Gdk.Pixbuf[] 
-                { 
-                    new Gdk.Pixbuf(asm, "Windows.Controls.Resources.NYSE.png"),
-                    new Gdk.Pixbuf(asm, "Windows.Controls.Resources.NASDAQ.png"),
-                    new Gdk.Pixbuf(asm, "Windows.Controls.Resources.AMEX.png")
-                };
+        public StockSymbols()
+            : base(typeof(string), typeof(string), typeof(Gdk.Pixbuf))
+        {            
+            icon = new Gdk.Pixbuf[]
+            { 
+                Gdk.Pixbuf.LoadFromResource("Windows.Controls.Resources.nyse.jpg"),
+                Gdk.Pixbuf.LoadFromResource("Windows.Controls.Resources.nasdaq.jpg"),
+                Gdk.Pixbuf.LoadFromResource("Windows.Controls.Resources.amex.jpg")
+            };
 
             LoadSymbols();
         }
@@ -33,15 +35,15 @@ namespace Windows.Controls.Data
         private void LoadSymbols()
         {
             MarketSymbols = new ConcurrentDictionary<string, string>();
-            resourceName = new string[] 
-                { 
-                    "Windows.Controls.Resources.NYSE.csv",                     
-                    "Windows.Controls.Resources.NASDAQ.csv",
-                    "Windows.Controls.Resources.AMEX.csv"                                    
-                };
+            resourceName = new string[]
+            { 
+                "Windows.Controls.Resources.NYSE.csv",                     
+                "Windows.Controls.Resources.NASDAQ.csv",
+                "Windows.Controls.Resources.AMEX.csv"                                    
+            };
 
             var asm = Assembly.GetExecutingAssembly();
-            Parallel.ForEach(resourceName,(s) => ReadResourceSymbolFile(s, asm));
+            Parallel.ForEach(resourceName, (s) => ReadResourceSymbolFile(s, asm));
 
             if (!MarketSymbols.Any())
                 return;
@@ -55,12 +57,13 @@ namespace Windows.Controls.Data
                 // Stripping the market index char
                 var val = itm.Value.Substring(1);
                 Symbols[itm.Key] = val;
-                this.AppendValues(itm.Key,val , icon[idx]);
+                this.AppendValues(itm.Key, val, icon[idx]);
             }
         }
 
         private void ReadResourceSymbolFile(string embeddedresname, Assembly assembly = null)
         {
+            
             if (null == assembly)
                 assembly = Assembly.GetExecutingAssembly();
 

@@ -13,7 +13,8 @@ namespace Windows.Controls.Data
     [DataContract]
     public class Portfolio
     {
-        public Portfolio(): this(string.Empty)
+        public Portfolio()
+            : this(string.Empty)
         {
             
         }
@@ -76,7 +77,7 @@ namespace Windows.Controls.Data
         public string Name { get; set; }
 
         [DataMember]
-        public List<string> Symbols {get; internal set;}
+        public List<string> Symbols { get; internal set; }
 
         public string csvSymbols { get { return string.Join(",", Symbols); } }
     }
@@ -85,20 +86,26 @@ namespace Windows.Controls.Data
     [KnownType(typeof(Portfolio))]
     public class Book : List<Portfolio>
     {
-        public Book() : base()
+        public Book()
+            : base()
         {   
+            IsDirty = false;
         }
+
+        public bool IsDirty { get; set; }
 
         public new void Add(Portfolio p)
         {
-            if(!this.Contains(p))
+            IsDirty = true;
+
+            if (!this.Contains(p))
             {
                 base.Add(p);
                 return;
             }
 
-            var folio = this.Find( x => x == p);
-            if(null == folio)
+            var folio = this.Find(x => x == p);
+            if (null == folio)
                 return;
 
             if (Remove(folio))
@@ -115,6 +122,13 @@ namespace Windows.Controls.Data
             {
                 var ser = new DataContractJsonSerializer(typeof(Book));
                 ser.WriteObject(jsonStream, this);
+            }
+
+            using (var jsonStream = new MemoryStream())
+            {
+                var ser = new DataContractJsonSerializer(typeof(Book));
+                ser.WriteObject(jsonStream, this);
+
             }
         }
 

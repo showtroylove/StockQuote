@@ -8,9 +8,19 @@ namespace QuoteView
 		
 		private global::Gtk.Label label1;
 		
+		private global::Gtk.HBox hbox2;
+		
+		private global::Gtk.ComboBox comboPortfolios;
+		
 		private global::Gtk.Entry txtPortfolioName;
 		
-		private global::Windows.Controls.ListBox listbox2;
+		private global::Gtk.Button btnNew;
+		
+		private global::Gtk.Button btnRename;
+		
+		private global::Gtk.Button btnDelete;
+		
+		private global::Windows.Controls.ListBox listSymbols;
 		
 		private global::Gtk.Button buttonCancel;
 		
@@ -21,8 +31,8 @@ namespace QuoteView
 			global::Stetic.Gui.Initialize (this);
 			// Widget QuoteView.PortfolioMgr
 			this.Name = "QuoteView.PortfolioMgr";
-			this.Title = global::Mono.Unix.Catalog.GetString ("Add Portfolio");
-			this.Icon = global::Stetic.IconLoader.LoadIcon (this, "gtk-new", global::Gtk.IconSize.Menu);
+			this.Title = global::Mono.Unix.Catalog.GetString ("Manage Portfolios");
+			this.Icon = global::Stetic.IconLoader.LoadIcon (this, "gtk-preferences", global::Gtk.IconSize.Menu);
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			this.Modal = true;
 			// Internal child QuoteView.PortfolioMgr.VBox
@@ -46,33 +56,95 @@ namespace QuoteView
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
+			this.hbox2 = new global::Gtk.HBox ();
+			this.hbox2.Name = "hbox2";
+			this.hbox2.Spacing = 6;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.comboPortfolios = global::Gtk.ComboBox.NewText ();
+			this.comboPortfolios.TooltipMarkup = "Select Portfolio to edit";
+			this.comboPortfolios.Name = "comboPortfolios";
+			this.hbox2.Add (this.comboPortfolios);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.comboPortfolios]));
+			w3.Position = 0;
+			// Container child hbox2.Gtk.Box+BoxChild
 			this.txtPortfolioName = new global::Gtk.Entry ();
+			this.txtPortfolioName.TooltipMarkup = "Enter new name";
 			this.txtPortfolioName.CanFocus = true;
 			this.txtPortfolioName.Name = "txtPortfolioName";
+			this.txtPortfolioName.Text = global::Mono.Unix.Catalog.GetString ("Enter new name here, add one symbol to complete...");
 			this.txtPortfolioName.IsEditable = true;
 			this.txtPortfolioName.MaxLength = 100;
 			this.txtPortfolioName.InvisibleChar = '●';
-			this.vbox2.Add (this.txtPortfolioName);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.txtPortfolioName]));
-			w3.Position = 1;
-			w3.Expand = false;
-			w3.Fill = false;
+			this.hbox2.Add (this.txtPortfolioName);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.txtPortfolioName]));
+			w4.Position = 1;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.btnNew = new global::Gtk.Button ();
+			this.btnNew.TooltipMarkup = "New Portfolio";
+			this.btnNew.WidthRequest = 0;
+			this.btnNew.CanFocus = true;
+			this.btnNew.Name = "btnNew";
+			this.btnNew.UseUnderline = true;
+			this.btnNew.Relief = ((global::Gtk.ReliefStyle)(2));
+			global::Gtk.Image w5 = new global::Gtk.Image ();
+			w5.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-new", global::Gtk.IconSize.Menu);
+			this.btnNew.Image = w5;
+			this.hbox2.Add (this.btnNew);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.btnNew]));
+			w6.Position = 2;
+			w6.Expand = false;
+			w6.Fill = false;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.btnRename = new global::Gtk.Button ();
+			this.btnRename.TooltipMarkup = "Rename portfolio";
+			this.btnRename.CanFocus = true;
+			this.btnRename.Name = "btnRename";
+			this.btnRename.UseUnderline = true;
+			this.btnRename.Relief = ((global::Gtk.ReliefStyle)(2));
+			global::Gtk.Image w7 = new global::Gtk.Image ();
+			w7.Pixbuf = global::Gdk.Pixbuf.LoadFromResource ("QuoteView.Resources.rename-unlocked.png");
+			this.btnRename.Image = w7;
+			this.hbox2.Add (this.btnRename);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.btnRename]));
+			w8.Position = 3;
+			w8.Expand = false;
+			w8.Fill = false;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.btnDelete = new global::Gtk.Button ();
+			this.btnDelete.TooltipMarkup = "Delete portfolio";
+			this.btnDelete.CanFocus = true;
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.UseUnderline = true;
+			this.btnDelete.Relief = ((global::Gtk.ReliefStyle)(2));
+			global::Gtk.Image w9 = new global::Gtk.Image ();
+			w9.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-remove", global::Gtk.IconSize.Button);
+			this.btnDelete.Image = w9;
+			this.hbox2.Add (this.btnDelete);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.btnDelete]));
+			w10.Position = 4;
+			w10.Expand = false;
+			w10.Fill = false;
+			this.vbox2.Add (this.hbox2);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.hbox2]));
+			w11.Position = 1;
+			w11.Expand = false;
+			w11.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.listbox2 = new global::Windows.Controls.ListBox ();
-			this.listbox2.Events = ((global::Gdk.EventMask)(256));
-			this.listbox2.Name = "listbox2";
-			this.vbox2.Add (this.listbox2);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.listbox2]));
-			w4.Position = 2;
+			this.listSymbols = new global::Windows.Controls.ListBox ();
+			this.listSymbols.Events = ((global::Gdk.EventMask)(256));
+			this.listSymbols.Name = "listSymbols";
+			this.vbox2.Add (this.listSymbols);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.listSymbols]));
+			w12.Position = 2;
 			w1.Add (this.vbox2);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(w1 [this.vbox2]));
-			w5.Position = 0;
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(w1 [this.vbox2]));
+			w13.Position = 0;
 			// Internal child QuoteView.PortfolioMgr.ActionArea
-			global::Gtk.HButtonBox w6 = this.ActionArea;
-			w6.Name = "dialog1_ActionArea";
-			w6.Spacing = 10;
-			w6.BorderWidth = ((uint)(5));
-			w6.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
+			global::Gtk.HButtonBox w14 = this.ActionArea;
+			w14.Name = "dialog1_ActionArea";
+			w14.Spacing = 10;
+			w14.BorderWidth = ((uint)(5));
+			w14.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonCancel = new global::Gtk.Button ();
 			this.buttonCancel.CanDefault = true;
@@ -83,9 +155,9 @@ namespace QuoteView
 			this.buttonCancel.Relief = ((global::Gtk.ReliefStyle)(2));
 			this.buttonCancel.Label = "gtk-cancel";
 			this.AddActionWidget (this.buttonCancel, -6);
-			global::Gtk.ButtonBox.ButtonBoxChild w7 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w6 [this.buttonCancel]));
-			w7.Expand = false;
-			w7.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w15 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w14 [this.buttonCancel]));
+			w15.Expand = false;
+			w15.Fill = false;
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonOk = new global::Gtk.Button ();
 			this.buttonOk.CanDefault = true;
@@ -96,17 +168,23 @@ namespace QuoteView
 			this.buttonOk.Relief = ((global::Gtk.ReliefStyle)(2));
 			this.buttonOk.Label = "gtk-ok";
 			this.AddActionWidget (this.buttonOk, -5);
-			global::Gtk.ButtonBox.ButtonBoxChild w8 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w6 [this.buttonOk]));
-			w8.Position = 1;
-			w8.Expand = false;
-			w8.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w16 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w14 [this.buttonOk]));
+			w16.Position = 1;
+			w16.Expand = false;
+			w16.Fill = false;
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 400;
-			this.DefaultHeight = 300;
+			this.DefaultHeight = 370;
+			this.txtPortfolioName.Hide ();
 			this.Show ();
+			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.comboPortfolios.Changed += new global::System.EventHandler (this.OnComboPortfoliosChanged);
 			this.txtPortfolioName.Changed += new global::System.EventHandler (this.OnTxtPortfolioNameChanged);
+			this.btnNew.Clicked += new global::System.EventHandler (this.OnBtnNewClicked);
+			this.btnRename.Clicked += new global::System.EventHandler (this.OnBtnRenameClicked);
+			this.btnDelete.Clicked += new global::System.EventHandler (this.OnBtnDeleteClicked);
 			this.buttonCancel.Clicked += new global::System.EventHandler (this.OnButtonCancelClicked);
 			this.buttonOk.Clicked += new global::System.EventHandler (this.OnButtonOkClicked);
 		}

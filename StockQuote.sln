@@ -36,7 +36,4 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = QuoteView\QuoteView.csproj
-	EndGlobalSection
 EndGlobal

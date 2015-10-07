@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Gtk;
 using Windows.Controls.Data;
-using System.Reflection;
 
 namespace Windows.Controls
 {
@@ -16,6 +15,10 @@ namespace Windows.Controls
         Dictionary<string,string> builtinPortfolios;
         Gdk.Pixbuf icon;
 
+        // Events
+        public event EventHandler AddButtonClicked = delegate {};
+        public event EventHandler ListBoxChanged = delegate {};
+
         public ListBox()
         {
             this.Build();
@@ -25,16 +28,18 @@ namespace Windows.Controls
         void ConfigureListBox()
         {
             // class member init
+            portfolio = new Portfolio();
             builtinPortfolios = 
-                new Dictionary<string,string> {{"-DJIA", "Dow Jones Industrial Avg"}, {"-NASDAQ", "All NASDAQ Market Symbols"}};
-            icon = new Gdk.Pixbuf(Assembly.GetExecutingAssembly(), "Windows.Controls.Resources.meeting-observer.png");
+                new Dictionary<string,string> { { "-DJIA", "Dow Jones Industrial Avg" }, { "-NASDAQ", "All NASDAQ Market Symbols" } };
+
+            icon = Gdk.Pixbuf.LoadFromResource("Windows.Controls.Resources.meeting-observer.png");
             mktSymbols = new StockSymbols();
-            portSymbols = new ListStore (typeof(Gdk.Pixbuf), typeof (string), typeof (string));
+            portSymbols = new ListStore(typeof(Gdk.Pixbuf), typeof(string), typeof(string));
             portfolio = new Portfolio();
 
             // local var init
             var imgRndr = new CellRendererPixbuf();
-            var render = new CellRendererText[] { new CellRendererText(), new CellRendererText()};
+            var render = new CellRendererText[] { new CellRendererText(), new CellRendererText() };
 
             // Disable the add symbol button (+)
             btnAdd.Sensitive = false;
@@ -57,7 +62,13 @@ namespace Windows.Controls
             comboboxentry.AddAttribute(render[1], "text", 1);        
 
             // Apply / Bind the data the combobox
+            comboboxentry.Entry.Completion = new EntryCompletion();
+            comboboxentry.Entry.Completion.TextColumn = 0;
+
+            // Bind comboboxentry to datasource
             comboboxentry.Model = mktSymbols;
+            comboboxentry.Entry.Completion.Model = mktSymbols;
+
 
             // Listbox will display the symbol and company name
             listbox.AppendColumn(" ", imgRndr, "pixbuf", 0);        
@@ -68,6 +79,7 @@ namespace Windows.Controls
         }
 
         Portfolio portfolio;
+
         public Portfolio Portfolio
         {
             get
@@ -76,13 +88,18 @@ namespace Windows.Controls
             }
             set
             {
-                if (!value.Symbols.Any())
+                if (portfolio == value)
                     return;
-
-                portSymbols.Clear();
-                portfolio.Symbols.Clear();
-                AddRange(value.Symbols);
+                
+                // assigns the ccurrent portfolio for editing
                 portfolio = value;
+
+                // Clears the model and listbox
+                portSymbols.Clear();
+
+                // Add current portfolio value to listbox
+                if (null != value)
+                    AddRange(value.Symbols);
             }
         }
 
@@ -104,23 +121,23 @@ namespace Windows.Controls
                 return;
 
             //Maintain list of symbols for caller.
-            if(!Portfolio.Symbols.Contains(sym))
+            if (!Portfolio.Symbols.Contains(sym))
                 Portfolio.Symbols.Add(sym);
+            
             listbox.ColumnsAutosize();
             comboboxentry.Entry.Text = string.Empty;
         }
 
         protected void OnBtnAddClicked(object sender, EventArgs e)
         {
-            AddSymbol(comboboxentry.ActiveText);
             OnAddButtonClicked(sender, e);
+            AddSymbol(comboboxentry.ActiveText);
+            ListBoxChanged(sender, e);
         }
 
-        public event EventHandler AddButtonClicked;
         protected void OnAddButtonClicked(object sender, EventArgs e)
-        {
-            if (null != AddButtonClicked)
-                AddButtonClicked(sender, e);
+        {            
+            AddButtonClicked(sender, e);
         }
 
         protected void OnComboboxentryChanged(object sender, EventArgs e)
@@ -133,6 +150,12 @@ namespace Windows.Controls
             if (args.Event.Key != Gdk.Key.Delete)
                 return;
 
+            RemoveSymbol();
+            ListBoxChanged(o, args);
+        }
+
+        protected void RemoveSymbol()
+        {
             var tp = listbox.Selection.GetSelectedRows();
 
             foreach (var path in tp)
@@ -143,7 +166,7 @@ namespace Windows.Controls
 
                 var symbol = portSymbols.GetValue(itr, 1);
                 portSymbols.Remove(ref itr);
-                
+
                 if (symbol is string)
                     Portfolio.Symbols.Remove(symbol.ToString());                            
             }

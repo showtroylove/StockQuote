@@ -68,6 +68,9 @@
     <EmbeddedResource Include="Resources\AMEX.png" />
     <EmbeddedResource Include="Resources\NYSE.png" />
     <EmbeddedResource Include="Resources\NASDAQ.png" />
+    <EmbeddedResource Include="Resources\amex.jpg" />
+    <EmbeddedResource Include="Resources\nasdaq.jpg" />
+    <EmbeddedResource Include="Resources\nyse.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
