@@ -20,7 +20,6 @@ public partial class MainWindow: Gtk.Window
 {
     Book book;
     QuoteView.PortfolioMgr dialog;
-    ListStore gridModel;
 
     public MainWindow()
         : base(Gtk.WindowType.Toplevel)
@@ -41,9 +40,6 @@ public partial class MainWindow: Gtk.Window
         // Set explicitly to prevent the flaky designer from creating a huge label
         this.grpboxLabel.HeightRequest = 17;
 
-        // Setup gridQuotes model
-        gridModel = new ListStore(typeof(Gdk.Pixbuf), typeof(string), typeof(string), typeof(string), typeof(string));
-
         // Setup the grid to display icon, and other columns of data returned
         // from the webservice where the quotes are retrieved.
         gridQuotes.AppendColumn(" ", new CellRendererPixbuf(), "pixbuf", 0);   
@@ -51,8 +47,6 @@ public partial class MainWindow: Gtk.Window
         gridQuotes.AppendColumn("Symbol", new CellRendererText(), "text", 2);        
         gridQuotes.AppendColumn("Last", new CellRendererText(), "text", 3);
         gridQuotes.AppendColumn("Change", new CellRendererText(), "text", 4);
-
-        gridQuotes.Model = gridModel;
         gridQuotes.ShowAll();
 
         // Loads pre-existing file called book.json 
@@ -88,11 +82,12 @@ public partial class MainWindow: Gtk.Window
 
     void UpdateGrid(List<StockQuote> quotes)
     {        
-        gridModel.Clear();
-
+        // Setup gridQuotes model
+        var gridModel = new ListStore(typeof(Gdk.Pixbuf), typeof(string), typeof(string), typeof(string), typeof(string));
         foreach (var q in quotes)
             gridModel.AppendValues(DetermineState(q.Change), q.Name, q.Symbol, q.Last.ToString("C"), q.Change);
-        
+
+        gridQuotes.Model = gridModel;
         gridQuotes.ColumnsAutosize();
     }
 
