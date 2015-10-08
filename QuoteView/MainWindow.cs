@@ -57,10 +57,10 @@ public partial class MainWindow: Gtk.Window
             // Add new menu items under Portfolios menu for each portfolio
             // read in from the file above e.g. Book.Load(file);
             UIManager.AddPortfolios(book, this.OnPortfolioActivated);
-
-            // Select the first Portfolio in list and retrieve quote(s)
-            LoadStartupQuoteOrDefaut();
         }
+
+        // Select the first Portfolio in list and retrieve quote(s)
+        LoadStartupQuoteOrDefaut();
     }
 
     #endregion
