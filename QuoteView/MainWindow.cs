@@ -7,7 +7,7 @@ using Gdk;
 using Gtk;
 using Windows.Controls.Data;
 using QuoteView.UI.Helpers;
-using appconfig = QuoteView.Properties.Settings;
+using static QuoteView.Properties.Settings;
 
 internal class QuoteStateIcons
 {
@@ -67,10 +67,18 @@ public partial class MainWindow: Gtk.Window
 
     void LoadStartupQuoteOrDefaut()
     {
-        var pd = appconfig.Default.StartUpQuotePortfolio;
-        var p = book.Find(x => x.Name == pd.ToUpper().Trim());
-        if (!string.IsNullOrEmpty(pd) && null != p)
+        var pd = Default.StartUpQuotePortfolio?.Trim().ToUpperInvariant();
+        if (string.IsNullOrEmpty(pd))
+            return;
+
+        var p = book[pd];
+        if (null != p)
             ActivatePortfolio(p);
+        else
+        {
+            txtSymbols.Text = pd;
+            btnQuote.Click();
+        }
     }
 
     void ActivatePortfolio(Portfolio p)
@@ -104,6 +112,7 @@ public partial class MainWindow: Gtk.Window
         if (!double.TryParse(change, out d))
             return QuoteStateIcons.iconUnChanged;
 
+        // Analysis disable once CompareOfFloatsByEqualityOperator
         return d == 0 ? QuoteStateIcons.iconUnChanged :
                d > 0 ? QuoteStateIcons.iconIncreased : QuoteStateIcons.iconDecreased;
     }
@@ -114,34 +123,43 @@ public partial class MainWindow: Gtk.Window
             return;
 
         var s = sender as Gtk.Action;
-        if (s.Label == "-DJIA" || s.Label == "-NASDAQ")
-            txtSymbols.Text = s.Label;
-        else
-            txtSymbols.Text = book.Find(x => x.Name == s.Label).csvSymbols;
+        txtSymbols.Text = book.Find(x => x.Name == s.Label)?.csvSymbols ?? s.Label;
 
         btnQuote.Activate();
     }
 
     protected async void QuoteButton_OnClick(object sender, EventArgs e)
     {
-        var cursor = Gdk.CursorType.LeftPtr;
+        var symbols = txtSymbols.Text;
 
         try
         {
-            this.GdkWindow.Cursor = new Cursor(Gdk.CursorType.Watch); 
-            btnQuote.Sensitive = false;
-            txtSymbols.Sensitive = false;
-            var symbols = txtSymbols.Text;
-
+            AlterWindowState();
             var qs = new QuoteService();
-            var quotes = qs.GetStockQuoteAsync(symbols);
+            var quotes = qs.GetStockQuoteAsync(symbols.Trim().ToUpperInvariant());
             UpdateGrid(await quotes);            
         }
         finally
         {
+            AlterWindowState(false);
+        }
+    }
+
+    void AlterWindowState(bool shouldlock = true)
+    {
+        if (shouldlock)
+        {
+            this.GdkWindow.Cursor = new Cursor(CursorType.Watch);
+            btnQuote.Sensitive = false;
+            txtSymbols.Sensitive = false;
+            mnuPortfolios.Sensitive = false;
+        }
+        else
+        {
             btnQuote.Sensitive = true;
             txtSymbols.Sensitive = true;
-            this.GdkWindow.Cursor = new Cursor(cursor);
+            this.GdkWindow.Cursor = new Cursor(CursorType.LeftPtr);
+            mnuPortfolios.Sensitive = true;
         }
     }
 
@@ -151,12 +169,10 @@ public partial class MainWindow: Gtk.Window
         if (null == dialog)
             dialog = new QuoteView.PortfolioMgr(book);        
 
-        //var dlgresult = dialog.Run();
         dialog.Run();
         dialog.Hide();
 
         // Update the portfolios menu, if applicable...
-        //if (dlgresult == (int)ResponseType.Ok)
         if (book.IsDirty)
             UIManager.AddPortfolios(book, this.OnPortfolioActivated);
 

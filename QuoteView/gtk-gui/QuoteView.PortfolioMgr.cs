@@ -181,7 +181,6 @@ namespace QuoteView
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.comboPortfolios.Changed += new global::System.EventHandler (this.OnComboPortfoliosChanged);
-			this.txtPortfolioName.Changed += new global::System.EventHandler (this.OnTxtPortfolioNameChanged);
 			this.btnNew.Clicked += new global::System.EventHandler (this.OnBtnNewClicked);
 			this.btnRename.Clicked += new global::System.EventHandler (this.OnBtnRenameClicked);
 			this.btnDelete.Clicked += new global::System.EventHandler (this.OnBtnDeleteClicked);

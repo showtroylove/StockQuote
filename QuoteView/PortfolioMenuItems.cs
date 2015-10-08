@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Xml;
-using System.Xml.Linq;
-using Windows.Controls.Data;
-using System.Linq;
-using Gtk;
 using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using Gtk;
+using Windows.Controls.Data;
 
 namespace QuoteView.UI.Helpers
 {
@@ -53,11 +52,11 @@ namespace QuoteView.UI.Helpers
             }
         }
 
-        private static void AddMenuItem(UIManager mgr, Portfolio sym, EventHandler actHndlr, string iconname = "gtk-refresh")
+        static void AddMenuItem(UIManager mgr, Portfolio sym, EventHandler actHndlr, string iconname = "gtk-refresh")
         {
             var mnuItem = new global::Gtk.Action("mnu" + sym.Name, sym.Name, null, iconname);
             mnuItem.ShortLabel = sym.Name;
-            mnuItem.Activated += new global::System.EventHandler(actHndlr);
+            mnuItem.Activated += actHndlr;
             mgr.ActionGroups[0].Add(mnuItem, null);
         }
     }

@@ -7,9 +7,6 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.IO;
-using System;
-using Windows.Controls.Data;
 
 namespace QuoteView.Properties
 {
@@ -49,28 +46,6 @@ namespace QuoteView.Properties
             get
             {
                 return ((string)(this["BookFilePath"]));
-            }
-        }
-
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-            <ArrayOfPortfolio xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-            <Portfolio>
-            <Name>FINANCIALS</Name>
-            <Symbols />
-            </Portfolio>
-            </ArrayOfPortfolio>")]
-        public Book Book
-        {
-            get
-            {
-                return ((Book)(this["Book"]));
-            }
-
-            set
-            {
-                this["Book"] = value;
             }
         }
     }

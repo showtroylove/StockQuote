@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System;
-using Bloomberg;
-using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using Bloomberg;
+using static System.Console;
 
 namespace StockQuoteApp
 {    
@@ -19,7 +18,7 @@ namespace StockQuoteApp
             }
 			catch(Exception ex) 
 			{
-				Console.WriteLine (ex.Message);
+				WriteLine (ex.Message);
 			}
         }
 
@@ -30,7 +29,7 @@ namespace StockQuoteApp
                 var last = 0.0;
                 var qresult = double.TryParse(result.Last, out last);
                 var qlast = qresult ? last.ToString("C") : "N/A";
-                Console.WriteLine("{0, -40} | Symbol [{1, -6}] | Last [{2, -10}] | Elapsed time: [{3}ms]",
+                WriteLine("{0, -40} | Symbol [{1, -6}] | Last [{2, -10}] | Elapsed time: [{3}ms]",
                     string.IsNullOrEmpty(result.Name) ? "Market Quote " : result.Name, result.Symbol, qlast, result.ElapsedMilliseconds);            
             }
         }
@@ -41,8 +40,8 @@ namespace StockQuoteApp
             var someValue = "-q";
             do
             {
-				Console.WriteLine("Enter one or more comma seperated stock symbol(s) for quote(s)\nor -nasdaq | -djia to use a default symbol set\nor type -q to exit.");
-				someValue = Console.ReadLine();
+				WriteLine("Enter one or more comma seperated stock symbol(s) for quote(s)\nor -nasdaq | -djia to use a default symbol set\nor type -q to exit.");
+				someValue = ReadLine();
                 
                 if (someValue != "-q" && !string.IsNullOrEmpty(someValue))
                 {
@@ -52,7 +51,7 @@ namespace StockQuoteApp
 
             } while (someValue != "-q");		
 
-			Console.WriteLine("Exiting QuoteBox...");
+			WriteLine("Exiting QuoteBox...");
         }		
 
         static void SQLServerConnect()

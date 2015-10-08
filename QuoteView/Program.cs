@@ -23,6 +23,7 @@ namespace QuoteView
                     ButtonsType.Ok, ex.Message);
                 md.Run ();
                 md.Destroy();
+                win?.Destroy();
             }
         }
     }

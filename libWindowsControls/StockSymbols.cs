@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Gtk;
 using System.Reflection;
@@ -22,7 +21,7 @@ namespace Windows.Controls.Data
         public StockSymbols()
             : base(typeof(string), typeof(string), typeof(Gdk.Pixbuf))
         {            
-            icon = new Gdk.Pixbuf[]
+            icon = new[]
             { 
                 Gdk.Pixbuf.LoadFromResource("Windows.Controls.Resources.nyse.jpg"),
                 Gdk.Pixbuf.LoadFromResource("Windows.Controls.Resources.nasdaq.jpg"),
@@ -32,10 +31,10 @@ namespace Windows.Controls.Data
             LoadSymbols();
         }
 
-        private void LoadSymbols()
+        void LoadSymbols()
         {
             MarketSymbols = new ConcurrentDictionary<string, string>();
-            resourceName = new string[]
+            resourceName = new []
             { 
                 "Windows.Controls.Resources.NYSE.csv",                     
                 "Windows.Controls.Resources.NASDAQ.csv",
@@ -61,22 +60,21 @@ namespace Windows.Controls.Data
             }
         }
 
-        private void ReadResourceSymbolFile(string embeddedresname, Assembly assembly = null)
-        {
-            
+        void ReadResourceSymbolFile(string embeddedresname, Assembly assembly = null)
+        {            
             if (null == assembly)
                 assembly = Assembly.GetExecutingAssembly();
 
             var mktidx = Array.FindIndex(resourceName, x => x == embeddedresname).ToString();
             
-            using (Stream stream = assembly.GetManifestResourceStream(embeddedresname))
+            using (var stream = assembly.GetManifestResourceStream(embeddedresname))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                using (var reader = new StreamReader(stream))
                 {
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();                        
-                        var symbol = line.Split(new char[] { ',' });
+                        var symbol = line.Split(new [] { ',' });
                         MarketSymbols[symbol[0].Trim()] = mktidx + symbol[1].Trim();
                     }
                 }

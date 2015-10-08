@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Gtk;
 using Windows.Controls.Data;
 
@@ -21,7 +19,7 @@ namespace Windows.Controls
 
         public ListBox()
         {
-            this.Build();
+            Build();
             ConfigureListBox();
         }
 
@@ -39,7 +37,7 @@ namespace Windows.Controls
 
             // local var init
             var imgRndr = new CellRendererPixbuf();
-            var render = new CellRendererText[] { new CellRendererText(), new CellRendererText() };
+            var render = new [] { new CellRendererText(), new CellRendererText() };
 
             // Disable the add symbol button (+)
             btnAdd.Sensitive = false;
@@ -53,10 +51,6 @@ namespace Windows.Controls
             comboboxentry.PackStart(imgRndr, false);
             comboboxentry.AddAttribute(imgRndr, "pixbuf", 2);        
 
-            // Symbol (appears to load these by default).
-            // comboboxentry.PackStart(render[0], true);
-            // comboboxentry.AddAttribute(render[0], "text", 0);        
-
             // Company Name
             comboboxentry.PackStart(render[1], true);
             comboboxentry.AddAttribute(render[1], "text", 1);        
@@ -69,12 +63,14 @@ namespace Windows.Controls
             comboboxentry.Model = mktSymbols;
             comboboxentry.Entry.Completion.Model = mktSymbols;
 
-
             // Listbox will display the symbol and company name
             listbox.AppendColumn(" ", imgRndr, "pixbuf", 0);        
             listbox.AppendColumn("Symbol", render[0], "text", 1);        
             listbox.AppendColumn("Name", render[1], "text", 2);    
+
             listbox.Model = portSymbols;
+            listbox.Reorderable = true;
+            listbox.Selection.Mode = SelectionMode.Multiple;
             listbox.ShowAll();
         }
 
@@ -156,6 +152,8 @@ namespace Windows.Controls
 
         protected void RemoveSymbol()
         {
+            // FIX: Figure out why this thing can't delete multiple selections
+            // in extended selection mode.
             var tp = listbox.Selection.GetSelectedRows();
 
             foreach (var path in tp)

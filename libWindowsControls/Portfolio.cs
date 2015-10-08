@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
-using System.Linq;
-using System.Xml.Serialization;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 
 namespace Windows.Controls.Data
 {
     [DataContract]
     public class Portfolio
     {
-        public Portfolio()
-            : this(string.Empty)
-        {
-            
+        public Portfolio() : this(string.Empty)
+        {            
         }
 
         public Portfolio(string name)
@@ -25,6 +16,14 @@ namespace Windows.Controls.Data
             Symbols = new List<string>();
         }
 
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public List<string> Symbols { get; internal set; }
+
+        public string csvSymbols => string.Join(",", Symbols);
+
         #region Plubming
 
         public override bool Equals(object obj)
@@ -32,7 +31,7 @@ namespace Windows.Controls.Data
             if (!(obj is Portfolio) || null == obj)
                 return false;
 
-            Portfolio p = obj as Portfolio;
+            var p = obj as Portfolio;
             return p.Name == this.Name;
         }
 
@@ -72,82 +71,6 @@ namespace Windows.Controls.Data
         }
 
         #endregion
-
-        [DataMember]
-        public string Name { get; set; }
-
-        [DataMember]
-        public List<string> Symbols { get; internal set; }
-
-        public string csvSymbols { get { return string.Join(",", Symbols); } }
-    }
-
-    [CollectionDataContract(Name = "Book", ItemName = "Portfolio")]
-    [KnownType(typeof(Portfolio))]
-    public class Book : List<Portfolio>
-    {
-        public Book()
-            : base()
-        {   
-            IsDirty = false;
-        }
-
-        public bool IsDirty { get; set; }
-
-        public new void Add(Portfolio p)
-        {
-            IsDirty = true;
-
-            if (!this.Contains(p))
-            {
-                base.Add(p);
-                return;
-            }
-
-            var folio = this.Find(x => x == p);
-            if (null == folio)
-                return;
-
-            if (Remove(folio))
-                base.Add(p);                     
-        }
-
-        public void Save(string filename = null)
-        {
-            var file = filename;
-            if (string.IsNullOrEmpty(file))
-                file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "book.json");
-
-            using (var jsonStream = new FileStream(file, FileMode.Truncate, FileAccess.ReadWrite))
-            {
-                var ser = new DataContractJsonSerializer(typeof(Book));
-                ser.WriteObject(jsonStream, this);
-            }
-
-            using (var jsonStream = new MemoryStream())
-            {
-                var ser = new DataContractJsonSerializer(typeof(Book));
-                ser.WriteObject(jsonStream, this);
-
-            }
-        }
-
-        public static Book Load(string filename = null)
-        {
-            var file = filename;
-            if (string.IsNullOrEmpty(file))
-                file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "book.json");
-
-            using (var jsonStream = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Read))
-            {
-                var ser = new DataContractJsonSerializer(typeof(Book));
-                var obj = ser.ReadObject(jsonStream);
-                if (obj is Book)
-                    return obj as Book;
-                else
-                    return new Book();
-            }
-        }
     }
 }
 

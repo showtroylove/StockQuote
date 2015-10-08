@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using Windows.Controls.Data;
 using Gtk;
-using appconfig = QuoteView.Properties.Settings;
+using static QuoteView.Properties.Settings;
 
 namespace QuoteView
 {
@@ -27,12 +26,10 @@ namespace QuoteView
             book = b;
             CurrentPortfolio = current;
             newportfolioCounter = 1;
+            state = WindowStateBehavior.Default;
 
             // Initialize widgets to the starting state
-            buttonOk.Sensitive = false;     
-            btnNew.Sensitive = true;
-            btnDelete.Sensitive = false;
-            btnRename.Sensitive = false;
+            WindowState = WindowStateBehavior.Default;
 
             // Images to make the gui pop...pop...pop
             lockedIcon = (Gtk.Image)btnRename.Image;
@@ -56,10 +53,7 @@ namespace QuoteView
             comboPortfolios.ShowAll();
 
             // Setup change event on listbox
-            IsDirty = delegate(object sender, EventArgs e)
-            {
-                book.IsDirty = true;
-            };
+            IsDirty = (object sender, EventArgs e) => book.IsDirty = true;
 
             listSymbols.ListBoxChanged += IsDirty;
 
@@ -81,7 +75,7 @@ namespace QuoteView
                     return;
                 
                 book = value;
-                txtPortfolioName.Text = (null == CurrentPortfolio ? value[0].Name : CurrentPortfolio.Name);
+                txtPortfolioName.Text = CurrentPortfolio?.Name ?? value[0].Name;
             }
         }
 
@@ -93,23 +87,20 @@ namespace QuoteView
             }
             protected set
             {                 
-                listSymbols.Portfolio = value; 
-
-                if (null != value)
-                    txtPortfolioName.Text = value.Name;
+                listSymbols.Portfolio = value;
+                txtPortfolioName.Text = value?.Name;
             }
         }
 
         protected void OnButtonOkClicked(object sender, EventArgs e)
         {   
-            var file = appconfig.Default.BookFilePath;
+            var file = Default.BookFilePath;
             Book.Save(file);
         }
 
         protected void OnButtonCancelClicked(object sender, EventArgs e)
         {
-            if (WindowState != WindowStateBehavior.Default)
-                WindowState = WindowStateBehavior.Default;
+            WindowState = WindowStateBehavior.Default;
 
             if (book.Any())
                 comboPortfolios.Active = 0;           
@@ -155,7 +146,7 @@ namespace QuoteView
             Delete
         }
 
-        WindowStateBehavior state = WindowStateBehavior.Default;
+        WindowStateBehavior state;
 
         WindowStateBehavior WindowState
         { 
